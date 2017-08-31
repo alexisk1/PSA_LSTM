@@ -86,7 +86,7 @@ model.add(Dense(10))
 model.add(Dense(1))
 model.compile(loss='mae', optimizer='adam')
 #model.fit(train,train_y , nb_epoch=60, batch_size=1, verbose=2)
-history = model.fit(train, train_y, nb_epoch=400, batch_size=1, verbose=2, shuffle=False)
+history = model.fit(train, train_y, nb_epoch=500, batch_size=1, verbose=2, shuffle=False)
 # make predictions
 trainPredict = model.predict(train,batch_size=1)
 model.reset_states()
@@ -99,12 +99,23 @@ testPredict = model.predict(test,batch_size=1)
 import math
 from sklearn.metrics import mean_squared_error
 # calculate root mean squared error
+for i in range(train_y):
+    if trainPredict[i,0]>0.5:
+         trainPredict[i,0]=1
+    else:
+         trainPredict[i,0]=0
+
+for i in range(test_y):
+    if testPredict[i,0]>0.4:
+         testPredict[i,0]=1
+    else:
+         testPredict[i,0]=0
 trainScore = math.sqrt(mean_squared_error(train_y, trainPredict[:,0]))
 print('Train Score: %.2f RMSE' % (trainScore))
 
 print (test_y.shape, testPredict[:,0].shape)
 testScore = math.sqrt(mean_squared_error(test_y, testPredict[:,0]))
-#print('Test Score: %.2f RMSE' % (testScore))
+print('Test Score: %.2f RMSE' % (testScore))
 
 
 # make predictions
