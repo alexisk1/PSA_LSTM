@@ -99,14 +99,14 @@ testPredict = model.predict(test,batch_size=1)
 import math
 from sklearn.metrics import mean_squared_error
 # calculate root mean squared error
-for i in range(train_y):
+for i in range(len(train_y)):
     if trainPredict[i,0]>0.5:
          trainPredict[i,0]=1
     else:
          trainPredict[i,0]=0
 
-for i in range(test_y):
-    if testPredict[i,0]>0.4:
+for i in range(len(test_y)):
+    if testPredict[i,0]>0.3:
          testPredict[i,0]=1
     else:
          testPredict[i,0]=0
